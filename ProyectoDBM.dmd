@@ -1,8 +1,0 @@
-<?xml version = '1.0' encoding = 'UTF-8'?>
-<OSDM_Design class="oracle.dbtools.crest.model.design.Design" name="ProyectoDBM" id="96E824E4-0D6A-9E8D-E447-2219DF3F3F5A" version="3.5">
-<createdBy>gadia</createdBy>
-<createdTime>2019-09-25 02:46:49 UTC</createdTime>
-<ownerDesignName>ProyectoDBM</ownerDesignName>
-<capitalNames>false</capitalNames>
-<designId>96E824E4-0D6A-9E8D-E447-2219DF3F3F5A</designId>
-</OSDM_Design>
