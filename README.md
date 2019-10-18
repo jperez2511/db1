@@ -1,0 +1,1 @@
+# Archivos DDL y JPG (Tienda de Pituras  y Laboratorio de Pinturas)
