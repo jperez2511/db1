@@ -2,37 +2,48 @@
 --orden de venta  documento que indica que si
 --contro de envio de producto
 
-
-CREATE TABLE Control_Envios(
-        Id_NumeroEnvio        INT(100) NOT NULL,
-        Codigo_Cliente        INT(100) NOT NULL,
-        Id_Paquete            INT(10) NOT NULL,
-        No_Factura            INT(10) NOT NULL,
-	      Estatus_Paquete       VARCHAR(100),
-	      Telefono_Cliente      VARCHAR(20),
-        Telefono_Cliente1     VARCHAR(20),
-        Forma_Pago_Efectivo   VARCHAR(01),
-        Forma_Pago_Tarjeta    VARCHAR(01),
-        Forma_Pago_Deposito   VARCHAR(01),
-        Forma_Pago_OtroPago   VARCHAR(01),
-        Estatus_Pago          VARCHAR(50),
+-------------------------------------------------------------------------
+---------------------Creacion de tablas----------------------------------
+-------------------------------------------------------------------------
+CREATE TABLE Control_Paquetes(
+        Id_FechaIngreso       TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        Id_CodigoCliente      INT(10) NOT NULL,
+        Factura               VARCHAR(20) NOT NULL,
+	      Id_EstatusPaquete     INT(10) NOT NULL,
+        Id_FormaPago          INT(10) NOT NULL,
+        Id_EstatusPago        INT(10) NOT NULL,
+        Id_Estado_Producto    INT(10)
         Fecha_Entrega         DATE,
-        Id_Vehiculo           INT(10),
-        Id_Status_Paquete     INT(10),
-        primary key(Id_NumeroEnvio, Codigo_Cliente)
+        Id_NoPlaca            INT(10),
+        primary key(Id_FechaIngreso, Id_CodigoCliente)
+);
+--En enviado, En camino, llego al lugar, entregado, devuelto
+CREATE TABLE Estatus_Paquete(
+        Id_EstatusPaquete     INT(10) NOT NULL,
+	      Descripcion           VARCHAR(100),
+        primary key(Id_EstatusPaquete)
 );
 
-CREATE TABLE Registro_Actividad(
-        Id_Paquete            INT(10) NOT NULL,
-	      IdEstatusPaquete      VARCHAR(100),
-	      IdEmpleado            INT(10),
-	      Id_Estado_Producto    INT(10),
-        primary key(Id_Paquete)
+
+--Forma de Forma_Pago_OtroPago        deposito, tarjeta, deposito-Tarjeta
+CREATE TABLE FormaPago(
+        Id_FormaPago          INT(10) NOT NULL,
+	      Descripcion           VARCHAR(100),
+        primary key(Id_FormaPago)
 );
 
+--Forma de Forma_Pago_OtroPago        Pendiente, pagado, credito
+CREATE TABLE EstatusPago(
+        Id_EstatusPago          INT(10) NOT NULL,
+	      Descripcion             VARCHAR(100),
+        primary key(EstatusPago)
+);
+
+---nuevo, dañado, abierto
 CREATE TABLE Estado_Producto(
         Id_Estado_Producto           INT(10) NOT NULL PRIMARY KEY,
-	      Descripcion                  VARCHAR(100)
+	      Descripcion                  VARCHAR(100),
+        primary key(Id_Estado_Producto)
 );
 
 CREATE TABLE Direccion_Entrega(
@@ -47,37 +58,69 @@ CREATE TABLE Direccion_Entrega(
         Residencial               VARCHAR(100),
         lote                      VARCHAR(20),
         avenida                   VARCHAR(50),
-        numero_casa               INT(10)
+        numero_casa               INT(10),
+        primary key(Id_Cliente)
 );
 
 CREATE TABLE Paises(
         Id_Pais                     INT(10) NOT NULL PRIMARY KEY,
-	      Descripcion                 VARCHAR(100) NOT NULL
+	      Descripcion                 VARCHAR(100) NOT NULL,
+        primary key(Id_Pais)
 );
 
 CREATE TABLE Municipios(
         Id_Municipio                INT(10) NOT NULL PRIMARY KEY,
-	      Descripcion                 VARCHAR(100) NOT NULL
+	      Descripcion                 VARCHAR(100) NOT NULL,
+        primary key(Id_Municipio)
 );
 
 CREATE TABLE Departamento(
         Id_Departamento             INT(10) NOT NULL PRIMARY KEY,
-	      Descripcion                 VARCHAR(100) NOT NULL
+	      Descripcion                 VARCHAR(100) NOT NULL,
+        primary key(Id_Departamento)
 );
 
-
+--se puede hacer una consulta para ver que vehiculos estan disponibles en ese momento
 CREATE TABLE Vehiculos(
-        Id_Vehiculos            INT(10) NOT NULL PRIMARY KEY,
-	      modelo                  VARCHAR(100),
+        Id_NoPlaca              INT(10) NOT NULL PRIMARY KEY,
         anio                    INT(04),
         PesoMaximo              INT(20),
+        Id_empleado             INT(10),
+        marca                   VARCHAR(100),
         MedidaPeso              VARCHAR(20),
-        Id_empleado             INT(10)
+        Id_EstadoVehiculo       INT(10),
+        primary key(Id_NoPlaca)
 );
 
+--   Dañado, Entregando, Libre
+CREATE TABLE EstadoVehiculo(
+        Id_EstadoVehiculo           INT(10) NOT NULL PRIMARY KEY,
+	      Descripcion                 VARCHAR(100) NOT NULL,
+        primary key(Id_EstadoVehiculo)
+);
+
+
+-------------------------------------------------------------------------
+----Ingreso de informacion a las tablas----------------------------------
+-------------------------------------------------------------------------
 --FOREIGN KEY Control_Envios(Id_Paquete) REFERENCES Registro_Actividad(Id_Paquete);
-ALTER TABLE Control_Envios
-ADD FOREIGN KEY (Id_Paquete) REFERENCES Registro_Actividad(Id_Paquete);
+ALTER TABLE Control_Paquetes
+ADD FOREIGN KEY (Id_EstatusPaquete) REFERENCES Estatus_Paquete(Id_EstatusPaquete);
+
+ALTER TABLE Control_Paquetes
+ADD FOREIGN KEY (Id_FormaPago) REFERENCES FormaPago(Id_FormaPago);
+
+ALTER TABLE Control_Paquetes
+ADD FOREIGN KEY (Id_EstatusPago) REFERENCES EstatusPago(Id_EstatusPago);
+
+ALTER TABLE Control_Paquetes
+ADD FOREIGN KEY (Id_NoPlaca) REFERENCES Vehiculos(Id_NoPlaca);
+
+ALTER TABLE Control_Paquetes
+ADD FOREIGN KEY (Id_EstatusPago) REFERENCES Estado_Producto(Id_EstatusPago);
+
+ALTER TABLE Direccion_Entrega
+ADD FOREIGN KEY (Id_EstadoVehiculo) REFERENCES Vehiculos(Id_EstadoVehiculo);
 
 ALTER TABLE Direccion_Entrega
 ADD FOREIGN KEY (Id_Pais) REFERENCES Paises(Id_Pais);
@@ -87,6 +130,36 @@ ADD FOREIGN KEY (Id_Departamento) REFERENCES Departamento(Id_Departamento);
 
 ALTER TABLE Direccion_Entrega
 ADD FOREIGN KEY (Id_Municipio) REFERENCES Municipios(Id_Municipio);
+
+-------------------------------------------------------------------------
+----Ingreso de informacion a las tablas----------------------------------
+-------------------------------------------------------------------------
+INSERT INTO `EstadoVehiculo` (`Id_EstadoVehiculo`, `Descripcion`) VALUES
+(1, "DAÑADO"),
+(2, "ENTREGANDO"),
+(3, "LIBRE");
+
+INSERT INTO `Estatus_Paquete` (`Id_EstatusPaquete`, `Descripcion`) VALUES
+(1, "ENVIADO"),
+(2, "EN CAMINO"),
+(3, "LLEGO DESTINO"),
+(4, "ENTREGADO"),
+(5, "DEVUELTO");
+
+INSERT INTO `FormaPago` (`Id_FormaPago`, `Descripcion`) VALUES
+(1, "DEPOSITO"),
+(2, "TARJETA"),
+(3, "DEPOSITO Y TARJETA");
+
+INSERT INTO `EstatusPago` (`Id_EstatusPago`, `Descripcion`) VALUES
+(1, "PENDIENTE"),
+(2, "PAGADO"),
+(3, "CREDITO");
+
+INSERT INTO `Estado_Producto` (`Id_Estado_Producto`, `Descripcion`) VALUES
+(1, "NUEVO"),
+(2, "DAÑADO"),
+(3, "ABIERTO");
 
 INSERT INTO `Departamento` (`Descripcion`, `Id_Departamento`) VALUES
 ("Alta Verapaz",1),
