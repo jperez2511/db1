@@ -147,6 +147,9 @@ INSERT INTO `Estatus_Paquete` (`Id_EstatusPaquete`, `Descripcion`) VALUES
 (4, "ENTREGADO"),
 (5, "DEVUELTO");
 
+INSERT INTO `Estatus_Paquete` (`Id_EstatusPaquete`, `Descripcion`) VALUES
+(6, "PENDIENTE");
+
 INSERT INTO `FormaPago` (`Id_FormaPago`, `Descripcion`) VALUES
 (1, "DEPOSITO"),
 (2, "TARJETA"),
@@ -763,20 +766,27 @@ INSERT INTO `Paises` (`Id_Pais`, `Descripcion`) VALUES
 (175,"Mayotte"),
 (710,"Sudáfrica");
 
+INSERT INTO `EstadoVehiculo` (`Id_EstadoVehiculo`, `Descripcion`) VALUES
+(0, "NINGUNO");
 
-------------------------
+INSERT INTO `Vehiculos` (`Id_NoPlaca`, `anio`, `PesoMaximo`, `Id_empleado`, `marca`, `MedidaPeso`, `Id_EstadoVehiculo`) VALUES
+(756, 2019, 700, 207727473, "MAZDA", "LIBRAS", 2),
+(755, 2019, 700, 207727474, "MAZDA", "LIBRAS", 2),
+(754, 2019, 700, 207727475, "MAZDA", "LIBRAS", 2);
 
-INSERT INTO `Control_Envios` (`Id_NumeroEnvio`, `Codigo_Cliente`,`Id_Paquete`,
-                               `No_Factura`,`Estatus_Paquete`,`Telefono_Cliente`,
-                               `Telefono_Cliente1`,`Forma_Pago_Efectivo`,`Forma_Pago_Tarjeta`,
-                               `Forma_Pago_Deposito`,`Forma_Pago_OtroPago`,`Estatus_Pago`,`Fecha_Entrega`,
-                               `Id_Vehiculo`,`Id_Status_Paquete`) VALUES
-(1, 1, 1, 1, "enviado","99999999","99999999","1","0","0","0","completo","2019/09/20",999,1),
-(2, 1, 2, 2, "enviado","88888888","88888888","1","0","0","0","completo","2019/09/20",999,1),
-(3, 1, 3, 3, "enviado","77777777","77777777","1","0","0","0","completo","2019/09/20",999,1),
-(4, 2, 4, 4, "enviado","77777777","77777777","1","0","0","0","completo","2019/09/20",999,1);
+INSERT INTO `Vehiculos` (`Id_NoPlaca`, `anio`, `PesoMaximo`, `Id_empleado`, `marca`, `MedidaPeso`, `Id_EstadoVehiculo`) VALUES
+(000, 0000, 0, 0, "NINGUNO", "NINGUNO", 0);
 
-INSERT INTO `Direccion_Entrega` (`Id_Cliente`, `Id_Pais`, `Id_Departamento`, `Id_Municipio`,`Zona`, `calle`, `Aldea`, `Colonia`, `Residencial`, `lote`, `avenida`, `numero_casa`) VALUES
+INSERT INTO `Control_Paquetes` (`Id_CodigoCliente`, `Factura`, `Id_EstatusPaquete`, `Id_FormaPago`, `Id_EstatusPago`, `Id_Estado_Producto`, `Fecha_Entrega`, `Id_NoPlaca`) VALUES
+(1, "AAA000001", 1, 2, 1, 1, "2019/10/20", 756),
+(2, "AAA000002", 1, 2, 1, 1, "2019/10/20", 755),
+(3, "AAA000003", 1, 2, 1, 1, "2019/10/20", 754),
+(4, "AAA000004", 6, 2, 1, 1, "2019/10/20", 000),
+(5, "AAA000005", 6, 2, 1, 1, "2019/10/20", 756);
+
+------------------------  aqui voy------------------------------------------------
+
+INSERT INTO `Control_Paquetes` (`Id_Cliente`, `Id_Pais`, `Id_Departamento`, `Id_Municipio`,`Zona`, `calle`, `Aldea`, `Colonia`, `Residencial`, `lote`, `avenida`, `numero_casa`) VALUES
 (1, 320, 11,12, 318,27,"Sapote","Santa Ana","","","americas", 25),
 (2, 320, 11, 12, 280,27,"Sapote","Santa Ana","","","americas", 25);
 
