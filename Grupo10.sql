@@ -1,7 +1,8 @@
 --Coordinacion de entrega de productos
 --orden de venta  documento que indica que si
 --contro de envio de producto
-
+CREATE DATABASE Envios_Producto_Tracking;
+USE Envios_Producto_Tracking;
 -------------------------------------------------------------------------
 ---------------------Creacion de tablas----------------------------------
 -------------------------------------------------------------------------
@@ -12,7 +13,7 @@ CREATE TABLE Control_Paquetes(
 	      Id_EstatusPaquete     INT(10) NOT NULL,
         Id_FormaPago          INT(10) NOT NULL,
         Id_EstatusPago        INT(10) NOT NULL,
-        Id_Estado_Producto    INT(10)
+        Id_Estado_Producto    INT(10),
         Fecha_Entrega         DATE,
         Id_NoPlaca            INT(10),
         primary key(Id_FechaIngreso, Id_CodigoCliente)
@@ -36,18 +37,18 @@ CREATE TABLE FormaPago(
 CREATE TABLE EstatusPago(
         Id_EstatusPago          INT(10) NOT NULL,
 	      Descripcion             VARCHAR(100),
-        primary key(EstatusPago)
+        primary key(Id_EstatusPago)
 );
 
 ---nuevo, dañado, abierto
 CREATE TABLE Estado_Producto(
-        Id_Estado_Producto           INT(10) NOT NULL PRIMARY KEY,
+        Id_Estado_Producto           INT(10) NOT NULL,
 	      Descripcion                  VARCHAR(100),
         primary key(Id_Estado_Producto)
 );
 
 CREATE TABLE Direccion_Entrega(
-        Id_Cliente                INT(10) NOT NULL PRIMARY KEY,
+        Id_Cliente                INT(10) NOT NULL,
         Id_Pais                   INT(10),
         Id_Departamento           INT(10),
         Id_Municipio              INT(10),
@@ -63,26 +64,26 @@ CREATE TABLE Direccion_Entrega(
 );
 
 CREATE TABLE Paises(
-        Id_Pais                     INT(10) NOT NULL PRIMARY KEY,
+        Id_Pais                     INT(10) NOT NULL,
 	      Descripcion                 VARCHAR(100) NOT NULL,
         primary key(Id_Pais)
 );
 
 CREATE TABLE Municipios(
-        Id_Municipio                INT(10) NOT NULL PRIMARY KEY,
+        Id_Municipio                INT(10) NOT NULL,
 	      Descripcion                 VARCHAR(100) NOT NULL,
         primary key(Id_Municipio)
 );
 
 CREATE TABLE Departamento(
-        Id_Departamento             INT(10) NOT NULL PRIMARY KEY,
+        Id_Departamento             INT(10) NOT NULL,
 	      Descripcion                 VARCHAR(100) NOT NULL,
         primary key(Id_Departamento)
 );
 
 --se puede hacer una consulta para ver que vehiculos estan disponibles en ese momento
 CREATE TABLE Vehiculos(
-        Id_NoPlaca              INT(10) NOT NULL PRIMARY KEY,
+        Id_NoPlaca              INT(10) NOT NULL,
         anio                    INT(04),
         PesoMaximo              INT(20),
         Id_empleado             INT(10),
@@ -94,7 +95,7 @@ CREATE TABLE Vehiculos(
 
 --   Dañado, Entregando, Libre
 CREATE TABLE EstadoVehiculo(
-        Id_EstadoVehiculo           INT(10) NOT NULL PRIMARY KEY,
+        Id_EstadoVehiculo           INT(10) NOT NULL,
 	      Descripcion                 VARCHAR(100) NOT NULL,
         primary key(Id_EstadoVehiculo)
 );
@@ -117,10 +118,10 @@ ALTER TABLE Control_Paquetes
 ADD FOREIGN KEY (Id_NoPlaca) REFERENCES Vehiculos(Id_NoPlaca);
 
 ALTER TABLE Control_Paquetes
-ADD FOREIGN KEY (Id_EstatusPago) REFERENCES Estado_Producto(Id_EstatusPago);
+ADD FOREIGN KEY (Id_Estado_Producto) REFERENCES Estado_Producto(Id_Estado_Producto);
 
-ALTER TABLE Direccion_Entrega
-ADD FOREIGN KEY (Id_EstadoVehiculo) REFERENCES Vehiculos(Id_EstadoVehiculo);
+ALTER TABLE Control_Paquetes
+ADD FOREIGN KEY (Id_NoPlaca) REFERENCES Vehiculos(Id_NoPlaca);
 
 ALTER TABLE Direccion_Entrega
 ADD FOREIGN KEY (Id_Pais) REFERENCES Paises(Id_Pais);
@@ -763,27 +764,7 @@ INSERT INTO `Paises` (`Id_Pais`, `Descripcion`) VALUES
 (710,"Sudáfrica");
 
 
-
-INSERT INTO `Registro_Actividad` (`Id_Paquete`, `IdEstatusPaquete`, `IdEmpleado`, `Id_Estado_Producto`) VALUES
-(1, "inicio",1,1),
-(2, "inicio",2,2),
-(3, "inicio",3,3),
-(4, "inicio",4,4),
-(5, "inicio",5,5),
-(6, "inicio",6,6),
-(7, "inicio",7,7),
-(8, "inicio",8,8),
-(9, "inicio",9,9),
-(10, "inicio",10,10),
-(11, "inicio",11,11),
-(12, "inicio",12,12),
-(13, "inicio",13,13),
-(14, "inicio",14,14);
-
-INSERT INTO `Estado_Producto` (`Id_Estado_Producto`, `Descripcion`) VALUES
-(1, "Nuevo"),
-(2, "Defectuoso"),
-(3, "Usado");
+------------------------
 
 INSERT INTO `Control_Envios` (`Id_NumeroEnvio`, `Codigo_Cliente`,`Id_Paquete`,
                                `No_Factura`,`Estatus_Paquete`,`Telefono_Cliente`,
