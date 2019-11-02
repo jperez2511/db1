@@ -1,0 +1,34 @@
+CREATE OR REPLACE PROCEDURE MOSTRAR_DIRECCION
+AS
+BEGIN
+  SELECT 
+  direccionproveedor
+  FROM direccionproveedor 
+  WHERE proveedor_idproveedor='12345';                 
+END;
+/
+
+
+CREATE OR REPLACE PROCEDURE PRODUCTO_BARATO
+AS
+BEGIN
+  SELECT 
+  nombreproduco,
+  descripcionproducto,
+  MAX(PRECIO) AS PRECIOMAXIMO
+  FROM producto  
+  GROUP BY nombreproduco,descripcionproducto;                 
+END;
+/
+
+CREATE OR REPLACE PROCEDURE PRODUCTO_BARATO
+AS
+BEGIN
+  SELECT 
+  nombreproduco,
+  descripcionproducto,
+  MAX(PRECIO) AS PRECIOMAXIMO
+  FROM producto  
+  GROUP BY nombreproduco,descripcionproducto;                 
+END;
+/

@@ -1,0 +1,22 @@
+CREATE OR REPLACE PROCEDURE Proveedor_insertar
+(idProveedor IN INTEGER, NombreProveedor IN VARCHAR2 DEFAULT 'Desconocido',
+Nit IN VARCHAR2 DEFAULT 'sin especificar', Email IN VARCHAR2 DEFAULT ‘Proveedor@Gmail.com’)
+AS
+BEGIN
+INSERT INTO Proveedor VALUES (idProveedor, NombreProveedor,Nit,Email);
+END;
+
+CREATE OR REPLACE PROCEDURE Producto_insertar
+(idProducto IN INTEGER, NombreProducto IN VARCHAR2 DEFAULT 'NewProduct',
+DescripcionProducto IN VARCHAR2 DEFAULT 'sin especificar', precio IN NUMBER DEFAULT 0)
+AS
+BEGIN
+INSERT INTO Proveedor VALUES (idProducto,NombreProducto,DescripcionProducto,precio);
+END;
+
+CREATE OR REPLACE PROCEDURE aumentar_Producto_Precio(product IN VARCHAR2)
+AS
+BEGIN
+UPDATE Producto SET precio=precio+(precio*0.1)
+WHERE NombreProducto=product;
+END;
