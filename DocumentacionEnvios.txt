@@ -1,0 +1,49 @@
+• Orden de venta.
+Una orden de venta, es un documento donde se definen mercancías que un cliente nos comprará.
+En él se detalla la cantidad a comprar, el tipo de producto, el precio, las condiciones de pago y otros datos importantes para la operación comercial.
+
+Control de envío de producto
+Levantamiento del pedido.
+consiste básicamente en:
+Recuperación del producto, producción o compra.
+Embalaje del envío.
+Programación de entrega.
+Preparación de documentos de entrega.
+Expedición correcta de mercancías de un punto a otro y correcta trazabilidad a lo largo de la cadena.
+
+Control de recibo RGA (autorización de retorno)
+Sepulveda A. (2018)
+
+Insituto Tecnológico de La Paz.
+3. El tercer sistema es el denominado mixto.
+
+En un almacén se pueden instalar sistemas de almacenaje con principios de funcionamiento diferentes, cada uno para un tipo de producto concreto.
+
+2.3 Control de envíos de productos.
+2.4 Control de recibos RGA
+• Entrada del pedido
+Se refiere a muchas tareas antes de efectuar el levantamiento real del pedido, como: comprobación de existencia, comprobación precisa, comprobación del crédito, pedidos atrasados,facturación.
+Ing. Industrial.
+Cuando se da esta situación de retorno en la que el cliente regresa el producto ya sea por motivos de fallas en la producción lo que se realiza es verificar el producto nuevamente y posteriormente reembolsar el dinero del producto o en su defecto entregar el producto hecho de manera adecuada, de acuerdo a lo que los clientes prefieran.
+Todo producto devuelto debe estar en su empaque original y en condición de poder analizarlo ya que está sujeto a inspección, antes de aplicar el respectivo cambio. Para este punto, la empresa revisa el número de camión, numero caja en que iba el producto y número de lote.
+El PICKING es un proceso básico en la preparación de pedidos en los almacenes que afecta en gran medida a la productividad de toda la cadena logística, ya que, en muchos casos, es el cuello de botella de la misma.
+
+Informe del estado del producto.
+Algunos de los tipos son:
+
+La preparación del pedido se refiere a las actividades de recopilar la información necesaria sobre los productos y servicios deseados, así como a la requisición formal de los productos que se vayan a comprar.
+
+Un buen sistema de envíos nos garantiza que nuestros clientes estarán satisfechos y así mismo se puede ganar más su fidelidad, lo más importante es que los productos lleguen en las condiciones necesarias para su uso y si esto no se da de esa manera tener la garantía de que nuestro producto se puede devolver y podemos darla la solución al cliente.
+
+Se da esta situación de retorno en la que el cliente regresa el producto ya sea por motivos de fallas en la producción lo que se realiza es verificar el producto nuevamente y posteriormente reembolsar el dinero del producto o en su defecto entregar el producto hecho de manera adecuada, de acuerdo a lo que los clientes prefieran.
+Órdenes de venta. 2018, de - Sitio web: https://cloudadmin.mx/blog/post/presentamos-las-ordenes-de-venta
+Tópicos de logística Unidad 2 (2013) TESOEM Cuadernillo alumnos. www.TESOEM.edu.mx
+Trasmisión de los pedidos (2018) informacion disponible en: http://silodisa.blogspot.mx/2010/06/transmision-del-pedido.html
+Elementos del procesamiento de pedidos.
+Referencias.
+
+• Pick to Light:
+
+En general en esta herramienta cada posición (slot) tiene una lámpara, la cual indica el número de unidades que se debe tomar de esa posición y un botón para confirmar cuando se toma esas unidades.
+
+El procedimiento para conformar un pedido con esta herramienta consiste en que el operario lee el código de barras del pedido, y en ese momento se alumbran las posiciones del que se deben tomar las unidades y se indican cuantas unidades se debe tomar, en el momento que se toma las unidades se oprime un botón en la lámpara confirmando que se tomaron las unidades.

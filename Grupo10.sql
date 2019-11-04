@@ -6,798 +6,359 @@ USE Envios_Producto_Tracking;
 -------------------------------------------------------------------------
 ---------------------Creacion de tablas----------------------------------
 -------------------------------------------------------------------------
-CREATE TABLE Control_Paquetes(
+CREATE TABLE Control_Paquetes_E(
         Id_FechaIngreso       TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        Id_CodigoCliente      INT(10) NOT NULL,
-        Factura               VARCHAR(20) NOT NULL,
-	      Id_EstatusPaquete     INT(10) NOT NULL,
-        Id_FormaPago          INT(10) NOT NULL,
-        Id_EstatusPago        INT(10) NOT NULL,
-        Id_Estado_Producto    INT(10),
+        Id_CodigoCliente      NUMBER(10) NOT NULL,
+        Id_Paquete            NUMBER(10),
+        Factura               VARCHAR2(20) NOT NULL,
+	      Id_EstatusPaquete     NUMBER(10) NOT NULL,
+        Id_FormaPago          NUMBER(10) NOT NULL,
+        Id_EstatusPago        NUMBER(10) NOT NULL,
+        Id_Estado_Producto    NUMBER(10),
         Fecha_Entrega         DATE,
-        Id_NoPlaca            INT(10),
+        Id_NoPlaca            NUMBER(10),
         primary key(Id_FechaIngreso, Id_CodigoCliente)
 );
+
 --En enviado, En camino, llego al lugar, entregado, devuelto
-CREATE TABLE Estatus_Paquete(
-        Id_EstatusPaquete     INT(10) NOT NULL,
-	      Descripcion           VARCHAR(100),
+CREATE TABLE Estatus_Paquete_E(
+        Id_EstatusPaquete     NUMBER(10) NOT NULL,
+	      Descripcion           VARCHAR2(100),
         primary key(Id_EstatusPaquete)
 );
 
 
 --Forma de Forma_Pago_OtroPago        deposito, tarjeta, deposito-Tarjeta
-CREATE TABLE FormaPago(
-        Id_FormaPago          INT(10) NOT NULL,
-	      Descripcion           VARCHAR(100),
+CREATE TABLE FormaPago_E(
+        Id_FormaPago                NUMBER(10) NOT NULL,
+	    Descripcion                 VARCHAR2(100),
         primary key(Id_FormaPago)
 );
 
 --Forma de Forma_Pago_OtroPago        Pendiente, pagado, credito
-CREATE TABLE EstatusPago(
-        Id_EstatusPago          INT(10) NOT NULL,
-	      Descripcion             VARCHAR(100),
+CREATE TABLE EstatusPago_E(
+        Id_EstatusPago          NUMBER(10) NOT NULL,
+	      Descripcion             VARCHAR2(100),
         primary key(Id_EstatusPago)
 );
 
 ---nuevo, dañado, abierto
-CREATE TABLE Estado_Producto(
-        Id_Estado_Producto           INT(10) NOT NULL,
-	      Descripcion                  VARCHAR(100),
+CREATE TABLE Estado_Producto_E(
+        Id_Estado_Producto                 NUMBER(10) NOT NULL,
+	      Descripcion                        VARCHAR2(100),
         primary key(Id_Estado_Producto)
 );
 
-CREATE TABLE Direccion_Entrega(
-        Id_Cliente                INT(10) NOT NULL,
-        Id_Pais                   INT(10),
-        Id_Departamento           INT(10),
-        Id_Municipio              INT(10),
-        Zona                      INT(10),
-        calle                     INT(25),
-        Aldea                     VARCHAR(100),
-        Colonia                   VARCHAR(100),
-        Residencial               VARCHAR(100),
-        lote                      VARCHAR(20),
-        avenida                   VARCHAR(50),
-        numero_casa               INT(10),
+CREATE TABLE Direccion_Entrega_E(
+        Id_Cliente                NUMBER(10) NOT NULL,
+        Id_Pais                   NUMBER(10),
+        Id_Departamento           NUMBER(10),
+        Id_Municipio              NUMBER(10),
+        Zona                      NUMBER(10),
+        nomenclatura              VARCHAR2(200),
         primary key(Id_Cliente)
 );
 
-CREATE TABLE Paises(
-        Id_Pais                     INT(10) NOT NULL,
-	      Descripcion                 VARCHAR(100) NOT NULL,
+CREATE TABLE Paises_E(
+        Id_Pais                     NUMBER(10) NOT NULL,
+	      Descripcion                 VARCHAR2(100) NOT NULL,
         primary key(Id_Pais)
 );
 
-CREATE TABLE Municipios(
-        Id_Municipio                INT(10) NOT NULL,
-	      Descripcion                 VARCHAR(100) NOT NULL,
+CREATE TABLE Municipios_E(
+        Id_Municipio                NUMBER(10) NOT NULL,
+	      Descripcion                 VARCHAR2(100) NOT NULL,
         primary key(Id_Municipio)
 );
 
-CREATE TABLE Departamento(
-        Id_Departamento             INT(10) NOT NULL,
-	      Descripcion                 VARCHAR(100) NOT NULL,
+CREATE TABLE Departamento_E(
+        Id_Departamento             NUMBER(10) NOT NULL,
+	      Descripcion                 VARCHAR2(100) NOT NULL,
         primary key(Id_Departamento)
 );
 
 --se puede hacer una consulta para ver que vehiculos estan disponibles en ese momento
-CREATE TABLE Vehiculos(
-        Id_NoPlaca              INT(10) NOT NULL,
-        anio                    INT(04),
-        PesoMaximo              INT(20),
-        Id_empleado             INT(10),
-        marca                   VARCHAR(100),
+CREATE TABLE Vehiculos_E(
+        Id_NoPlaca              NUMBER(10) NOT NULL,
+        anio                    NUMBER(04),
+        PesoMaximo              NUMBER(20),
+        Id_empleado             NUMBER(10),
+        marca                   VARCHAR2(100),
         MedidaPeso              VARCHAR(20),
-        Id_EstadoVehiculo       INT(10),
+        Id_EstadoVehiculo       NUMBER(10),
         primary key(Id_NoPlaca)
 );
-
 --   Dañado, Entregando, Libre
-CREATE TABLE EstadoVehiculo(
-        Id_EstadoVehiculo           INT(10) NOT NULL,
-	      Descripcion                 VARCHAR(100) NOT NULL,
+CREATE TABLE EstadoVehiculo_E(
+        Id_EstadoVehiculo           NUMBER(10) NOT NULL,
+	      Descripcion                 VARCHAR2(100) NOT NULL,
         primary key(Id_EstadoVehiculo)
 );
-
-
+CREATE TABLE RegistroActividad_E(
+        Id_Paquete                NUMBER(10) NOT NULL,
+	      Id_CodigoCliente          VARCHAR2(100) NOT NULL,
+        Id_EstatusPaquete         NUMBER(10) NOT NULL,
+        Id_Empleado               NUMBER(10) NOT NULL,
+        Id_EstadoProducto         NUMBER(10) NOT NULL
+        primary key(Id_Paquete)
+);
 -------------------------------------------------------------------------
 ----Ingreso de informacion a las tablas----------------------------------
 -------------------------------------------------------------------------
 --FOREIGN KEY Control_Envios(Id_Paquete) REFERENCES Registro_Actividad(Id_Paquete);
-ALTER TABLE Control_Paquetes
-ADD FOREIGN KEY (Id_EstatusPaquete) REFERENCES Estatus_Paquete(Id_EstatusPaquete);
+ALTER TABLE Control_Paquetes__E
+ADD FOREIGN KEY (Id_EstatusPaquete) REFERENCES Estatus_Paquete_E(Id_EstatusPaquete);
 
-ALTER TABLE Control_Paquetes
-ADD FOREIGN KEY (Id_FormaPago) REFERENCES FormaPago(Id_FormaPago);
+ALTER TABLE Control_Paquetes_E
+ADD FOREIGN KEY (Id_FormaPago) REFERENCES FormaPago_E(Id_FormaPago);
 
-ALTER TABLE Control_Paquetes
-ADD FOREIGN KEY (Id_EstatusPago) REFERENCES EstatusPago(Id_EstatusPago);
+ALTER TABLE Control_Paquetes_E
+ADD FOREIGN KEY (Id_EstatusPago) REFERENCES EstatusPago_E(Id_EstatusPago);
 
-ALTER TABLE Control_Paquetes
-ADD FOREIGN KEY (Id_NoPlaca) REFERENCES Vehiculos(Id_NoPlaca);
+ALTER TABLE Control_Paquetes_E
+ADD FOREIGN KEY (Id_NoPlaca) REFERENCES Vehiculos_E(Id_NoPlaca);
 
-ALTER TABLE Control_Paquetes
-ADD FOREIGN KEY (Id_Estado_Producto) REFERENCES Estado_Producto(Id_Estado_Producto);
+ALTER TABLE Control_Paquetes_E
+ADD FOREIGN KEY (Id_Estado_Producto) REFERENCES Estado_Producto_E(Id_Estado_Producto);
 
-ALTER TABLE Control_Paquetes
-ADD FOREIGN KEY (Id_NoPlaca) REFERENCES Vehiculos(Id_NoPlaca);
+ALTER TABLE Control_Paquetes_E
+ADD FOREIGN KEY (Id_NoPlaca) REFERENCES Vehiculos_E(Id_NoPlaca);
 
-ALTER TABLE Direccion_Entrega
-ADD FOREIGN KEY (Id_Pais) REFERENCES Paises(Id_Pais);
+ALTER TABLE Direccion_Entrega_E
+ADD FOREIGN KEY (Id_Pais) REFERENCES Paises_E(Id_Pais);
 
-ALTER TABLE Direccion_Entrega
-ADD FOREIGN KEY (Id_Departamento) REFERENCES Departamento(Id_Departamento);
+ALTER TABLE Direccion_Entrega_E
+ADD FOREIGN KEY (Id_Departamento) REFERENCES Departamento_E(Id_Departamento);
 
-ALTER TABLE Direccion_Entrega
-ADD FOREIGN KEY (Id_Municipio) REFERENCES Municipios(Id_Municipio);
+ALTER TABLE Direccion_Entrega_E
+ADD FOREIGN KEY (Id_Municipio) REFERENCES Municipiosv(Id_Municipio);
 
--------------------------------------------------------------------------
-----Ingreso de informacion a las tablas----------------------------------
--------------------------------------------------------------------------
-INSERT INTO `EstadoVehiculo` (`Id_EstadoVehiculo`, `Descripcion`) VALUES
-(1, "DAÑADO"),
-(2, "ENTREGANDO"),
-(3, "LIBRE");
+ALTER TABLE RegistroActividad_E
+ADD FOREIGN KEY (Id_Municipio) REFERENCES EstadoProducto_E(Id_EstadoProducto);
 
-INSERT INTO `Estatus_Paquete` (`Id_EstatusPaquete`, `Descripcion`) VALUES
-(1, "ENVIADO"),
-(2, "EN CAMINO"),
-(3, "LLEGO DESTINO"),
-(4, "ENTREGADO"),
-(5, "DEVUELTO");
+--Departamento
+INSERT INTO Departamento_E (Descripcion, Id_Departamento) VALUES('Alta Verapaz',1);
+INSERT INTO Departamento_E (Descripcion, Id_Departamento) VALUES('Baja Verapaz',2);
+INSERT INTO Departamento_E (Descripcion, Id_Departamento) VALUES('Chimaltenango',3);
+INSERT INTO Departamento_E (Descripcion, Id_Departamento) VALUES('Chiquimula',4);
+INSERT INTO Departamento_E (Descripcion, Id_Departamento) VALUES('El Progreso',5);
+INSERT INTO Departamento_E (Descripcion, Id_Departamento) VALUES('Escula',6);
+INSERT INTO Departamento_E (Descripcion, Id_Departamento) VALUES('Guatemala',7);
+INSERT INTO Departamento_E (Descripcion, Id_Departamento) VALUES('Huehuetenango',8);
+INSERT INTO Departamento_E (Descripcion, Id_Departamento) VALUES('Izabal',9);
+INSERT INTO Departamento_E (Descripcion, Id_Departamento) VALUES('Jalapa',10);
+INSERT INTO Departamento_E (Descripcion, Id_Departamento) VALUES('Jutiapa',11);
+INSERT INTO Departamento_E (Descripcion, Id_Departamento) VALUES('Petén',12);
+INSERT INTO Departamento_E (Descripcion, Id_Departamento) VALUES('Quetzaltenango',13);
+INSERT INTO Departamento_E (Descripcion, Id_Departamento) VALUES('Quiché',14);
+INSERT INTO Departamento_E (Descripcion, Id_Departamento) VALUES('Retalhuleu',15);
+INSERT INTO Departamento_E (Descripcion, Id_Departamento) VALUES('Sacatepéquez',16);
+INSERT INTO Departamento_E (Descripcion, Id_Departamento) VALUES('San Marcos',17);
+INSERT INTO Departamento_E (Descripcion, Id_Departamento) VALUES('Santa Rosa',18);
+INSERT INTO Departamento_E (Descripcion, Id_Departamento) VALUES('Sololá',19);
+INSERT INTO Departamento_E (Descripcion, Id_Departamento) VALUES('Suchitepéquez',20);
+INSERT INTO Departamento_E (Descripcion, Id_Departamento) VALUES('Totonicapán',21);
+INSERT INTO Departamento_E (Descripcion, Id_Departamento) VALUES('Zacapa',22);
 
-INSERT INTO `Estatus_Paquete` (`Id_EstatusPaquete`, `Descripcion`) VALUES
-(6, "PENDIENTE");
+INSERT INTO Estatus_Paquete_E(Id_EstatusPaquete, Descripcion) VALUES(1, 'ENVIADO');
+INSERT INTO Estatus_Paquete_E(Id_EstatusPaquete, Descripcion) VALUES(2, 'EN CAMINO');
+INSERT INTO Estatus_Paquete_E(Id_EstatusPaquete, Descripcion) VALUES(3, 'EN EL LUGAR');
+INSERT INTO Estatus_Paquete_E(Id_EstatusPaquete, Descripcion) VALUES(4, 'ENTREGADO');
+INSERT INTO Estatus_Paquete_E(Id_EstatusPaquete, Descripcion) VALUES(5, 'DEVUELTO');
+INSERT INTO Estatus_Paquete_E(Id_EstatusPaquete, Descripcion) VALUES(6, 'PENDIENTE');
 
-INSERT INTO `FormaPago` (`Id_FormaPago`, `Descripcion`) VALUES
-(1, "DEPOSITO"),
-(2, "TARJETA"),
-(3, "DEPOSITO Y TARJETA");
+INSERT INTO FormaPago_E(Id_FormaPago, Descripcion) VALUES(1, 'DEPOSITO');
+INSERT INTO FormaPago_E(Id_FormaPago, Descripcion) VALUES(2, 'TARJETA');
+INSERT INTO FormaPago_E(Id_FormaPago, Descripcion) VALUES(3, 'DEPOSITO Y TARJETA');
 
-INSERT INTO `EstatusPago` (`Id_EstatusPago`, `Descripcion`) VALUES
-(1, "PENDIENTE"),
-(2, "PAGADO"),
-(3, "CREDITO");
+INSERT INTO EstatusPago_E(Id_EstatusPago, Descripcion) VALUES(1, 'PENDIENTE');
+INSERT INTO EstatusPago_E(Id_EstatusPago, Descripcion) VALUES(2, 'PAGADO');
+INSERT INTO EstatusPago_E(Id_EstatusPago, Descripcion) VALUES(3, 'CREDITO');
 
-INSERT INTO `Estado_Producto` (`Id_Estado_Producto`, `Descripcion`) VALUES
-(1, "NUEVO"),
-(2, "DAÑADO"),
-(3, "ABIERTO");
+INSERT INTO Estado_Producto_E(Id_Estado_Producto, Descripcion) VALUES(1, 'NUEVO');
+INSERT INTO Estado_Producto_E(Id_Estado_Producto, Descripcion) VALUES(2, 'DAÑADO');
+INSERT INTO Estado_Producto_E(Id_Estado_Producto, Descripcion) VALUES(3, 'ABIERTO');
 
-INSERT INTO `Departamento` (`Descripcion`, `Id_Departamento`) VALUES
-("Alta Verapaz",1),
-("Baja Verapaz",2),
-("Chimaltenango",3),
-("Chiquimula",4),
-("El Progreso",5),
-("Escuintla",6),
-("Guatemala",7),
-("Huehuetenango",8),
-("Izabal",9),
-("Jalapa",10),
-("Jutiapa",11),
-("Petén",12),
-("Quetzaltenango",13),
-("Quiché",14),
-("Retalhuleu",15),
-("Sacatepéquez",16),
-("San Marcos",17),
-("Santa Rosa",18),
-("Sololá",19),
-("Suchitepéquez",20),
-("Totonicapán",21),
-("Zacapa",22);
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(1,'Cobán');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(2,'Santa Cruz Verapaz');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(3,'San Cristobal Verapaz');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(4,'Tactíc');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(5,'Tamahú');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(6,'San Miguel Tucurú');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(7,'Panzos');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(8,'Senahú');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(9,'San Pedro Carchá');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(10,'SanJuan Chamelco');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(11,'Lanquín');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(12,'Santa María Cahabón');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(13,'Chisec');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(14,'Chahal');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(15,'Fray Bartolomé de las Casas');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(16,'Santa Catarina La Ta');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(17,'Salamá');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(18,'San Miguel Chicaj');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(19,'Rabinal');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(20,'Cubulco');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(21,'Granados');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(22,'Santa Cruz El Chol');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(23,'San Jerónimo');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(24,'Purulhá');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(25,'Chimaltenango');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(26,'San José Poaquil');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(27,'San Martín Jilotepeque');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(28,'San Juan Comalapa');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(29,'Santa Apolonia');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(30,'Tecpán Guatemala');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(31,'Patzun');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(32,'San Miguel Pochuta');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(33,'Patzicia');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(34,'Santa Cruz Balanyá');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(35,'Acatenango');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(36,'San Pedro Yepocapa');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(37,'San Andrés Itzapa');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(38,'Parramos');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(39,'Zaragoza');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(40,'El Tejar');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(41,'Chiquimula');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(42,'San José La Arada');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(43,'San Juan Hermita');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(44,'Jocotán');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(45,'Camotán');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(46,'Olopa');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(47,'Esquipulas');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(48,'Concepción Las Minas');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(49,'Quezaltepeque');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(50,'San Jaco');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(51,'Ipala');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(52,'Flores');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(53,'San José');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(54,'San Benito');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(55,'San Andrés');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(56,'La Libertad');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(57,'San Francisco');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(58,'Santa Ana');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(59,'Dolores');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(60,'San Luis');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(61,'Sayaxche');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(62,'Melchor de Mencos');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(63,'Poptún');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(64,'Guastatoya');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(65,'Morazán');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(66,'San Agustín Acasaguastlan');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(67,'San Cristóbal Acasaguastlan');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(68,'El Jícaro');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(69,'Sansare');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(70,'Sanarate');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(71,'San Antonio La Paz');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(72,'Santa Cruz del Quiche');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(73,'Chiche');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(74,'Chinique');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(75,'Zacualpa');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(76,'Chajul');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(77,'Santo Tomás Chichicstenango');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(78,'Patzité');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(79,'San Antonio Ilotenango');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(80,'San Pedro Jocopilas');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(81,'Cunén');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(82,'San Juan Cotzal');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(83,'Joyabaj');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(84,'Santa María Nebaj');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(85,'San Andrés Sajcabajá');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(86,'San Miguel Uspatán');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(87,'Sacapulas');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(88,'San Bartolomé Jocotenango');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(89,'Canilla');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(90,'Chicaman');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(91,'Playa Grnade - Ixcán');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(92,'Pachalúm');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(93,'Escula');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(94,'Santa Lucía Cotzumalguapa');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(95,'La Democracia');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(96,'Siquinalá');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(97,'Masagua');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(98,'Pueblo Nuevo Tiquisate');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(99,'La Gomera');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(100,'Guanagazapa');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(101,'Puerto de San José');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(102,'Iztapa');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(103,'Palín');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(104,'San Vicente Pacaya');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(105,'Nueva Concepción');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(106,'Guatemala');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(107,'Santa Catarina Pinula');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(108,'San José Pinula');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(109,'San José del Golfo');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(110,'Palencia');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(111,'Chinautla');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(112,'San Pedro Ayampuc');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(113,'Mixco');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(114,'San Pedro Sacatepequez');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(115,'San Juan Sacatepequez');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(116,'San Raymundo');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(117,'Chuarrancho');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(118,'Fraijanes');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(119,'Amatitlán');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(120,'Villa Nueva');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(121,'Villa Canales');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(122,'San Miguel Petapa');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(123,'Huehuetenango');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(124,'Chiantla');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(125,'Malacatancito');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(126,'Cuilco');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(127,'Nentón');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(128,'San Pedro Necta');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(129,'Jacaltenango');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(130,'San Pedro Soloma');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(131,'San Ildelfonso Ixtahuac´n');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(132,'Santa Bárbara');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(133,'La Libertad');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(134,'La Democracia');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(135,'San Miguel Acatán');
+INSERT INTO Municipios_E(Id_Municipio, Descripcion) VALUES(136,'San Rafael La Independencia');
 
+INSERT INTO EstadoVehiculo_E(Id_EstadoVehiculo, Descripcion) VALUES(0, 'NINGUNO');
+INSERT INTO EstadoVehiculo_E(Id_EstadoVehiculo, Descripcion) VALUES(1, 'BUEN ESTADO');
+INSERT INTO EstadoVehiculo_E(Id_EstadoVehiculo, Descripcion) VALUES(2, 'MANTENIMIENTO');
 
-INSERT INTO `Municipios` (`Id_Municipio`, `Descripcion`) VALUES
-(1,"Cobán"),
-(2,"Santa Cruz Verapaz"),
-(3,"San Cristobal Verapaz"),
-(4,"Tactíc"),
-(5,"Tamahú"),
-(6,"San Miguel Tucurú"),
-(7,"Panzos"),
-(8,"Senahú"),
-(9,"San Pedro Carchá"),
-(10,"SanJuan Chamelco"),
-(11,"Lanquín"),
-(12,"Santa María Cahabón"),
-(13,"Chisec"),
-(14,"Chahal"),
-(15,"Fray Bartolomé de las Casas"),
-(16,"Santa Catarina La Tinta"),
-(17,"Salamá"),
-(18,"San Miguel Chicaj"),
-(19,"Rabinal"),
-(20,"Cubulco"),
-(21,"Granados"),
-(22,"Santa Cruz El Chol"),
-(23,"San Jerónimo"),
-(24,"Purulhá"),
-(25,"Chimaltenango"),
-(26,"San José Poaquil"),
-(27,"San Martín Jilotepeque"),
-(28,"San Juan Comalapa"),
-(29,"Santa Apolonia"),
-(30,"Tecpán Guatemala"),
-(31,"Patzun"),
-(32,"San Miguel Pochuta"),
-(33,"Patzicia"),
-(34,"Santa Cruz Balanyá"),
-(35,"Acatenango"),
-(36,"San Pedro Yepocapa"),
-(37,"San Andrés Itzapa"),
-(38,"Parramos"),
-(39,"Zaragoza"),
-(40,"El Tejar"),
-(41,"Chiquimula"),
-(42,"San José La Arada"),
-(43,"San Juan Hermita"),
-(44,"Jocotán"),
-(45,"Camotán"),
-(46,"Olopa"),
-(47,"Esquipulas"),
-(48,"Concepción Las Minas"),
-(49,"Quezaltepeque"),
-(50,"San Jacinto"),
-(51,"Ipala"),
-(52,"Flores"),
-(53,"San José"),
-(54,"San Benito"),
-(55,"San Andrés"),
-(56,"La Libertad"),
-(57,"San Francisco"),
-(58,"Santa Ana"),
-(59,"Dolores"),
-(60,"San Luis"),
-(61,"Sayaxche"),
-(62,"Melchor de Mencos"),
-(63,"Poptún"),
-(64,"Guastatoya"),
-(65,"Morazán"),
-(66,"San Agustín Acasaguastlan"),
-(67,"San Cristóbal Acasaguastlan"),
-(68,"El Jícaro"),
-(69,"Sansare"),
-(70,"Sanarate"),
-(71,"San Antonio La Paz"),
-(72,"Santa Cruz del Quiche"),
-(73,"Chiche"),
-(74,"Chinique"),
-(75,"Zacualpa"),
-(76,"Chajul"),
-(77,"Santo Tomás Chichicstenango"),
-(78,"Patzité"),
-(79,"San Antonio Ilotenango"),
-(80,"San Pedro Jocopilas"),
-(81,"Cunén"),
-(82,"San Juan Cotzal"),
-(83,"Joyabaj"),
-(84,"Santa María Nebaj"),
-(85,"San Andrés Sajcabajá"),
-(86,"San Miguel Uspatán"),
-(87,"Sacapulas"),
-(88,"San Bartolomé Jocotenango"),
-(89,"Canilla"),
-(90,"Chicaman"),
-(91,"Playa Grnade - Ixcán"),
-(92,"Pachalúm"),
-(93,"Escuintla"),
-(94,"Santa Lucía Cotzumalguapa"),
-(95,"La Democracia"),
-(96,"Siquinalá"),
-(97,"Masagua"),
-(98,"Pueblo Nuevo Tiquisate"),
-(99,"La Gomera"),
-(100,"Guanagazapa"),
-(101,"Puerto de San José"),
-(102,"Iztapa"),
-(103,"Palín"),
-(104,"San Vicente Pacaya"),
-(105,"Nueva Concepción"),
-(106,"Guatemala"),
-(107,"Santa Catarina Pinula"),
-(108,"San José Pinula"),
-(109,"San José del Golfo"),
-(110,"Palencia"),
-(111,"Chinautla"),
-(112,"San Pedro Ayampuc"),
-(113,"Mixco"),
-(114,"San Pedro Sacatepequez"),
-(115,"San Juan Sacatepequez"),
-(116,"San Raymundo"),
-(117,"Chuarrancho"),
-(118,"Fraijanes"),
-(119,"Amatitlán"),
-(120,"Villa Nueva"),
-(121,"Villa Canales"),
-(122,"San Miguel Petapa"),
-(123,"Huehuetenango"),
-(124,"Chiantla"),
-(125,"Malacatancito"),
-(126,"Cuilco"),
-(127,"Nentón"),
-(128,"San Pedro Necta"),
-(129,"Jacaltenango"),
-(130,"San Pedro Soloma"),
-(131,"San Ildelfonso Ixtahuac´n"),
-(132,"Santa Bárbara"),
-(133,"La Libertad"),
-(134,"La Democracia"),
-(135,"San Miguel Acatán"),
-(136,"San Rafael La Independencia"),
-(137,"Todos Santos Chuchcumatán"),
-(138,"San Juan Atitán"),
-(139,"Santa Eulalia"),
-(140,"San Mateo Ixtatán"),
-(141,"Colotenango"),
-(142,"San Sebastián Huehuetenango"),
-(143,"Tectitán"),
-(144,"Concepción Huista"),
-(145,"San Juan Ixcoy"),
-(146,"San Antonio Huista"),
-(147,"San Sebastián Coatán"),
-(148,"Santa Cruz Barillas"),
-(149,"Aguacatán"),
-(150,"San Rafael Petzal"),
-(151,"San Gaspar Ixchil"),
-(152,"Santiago Chimaltenango"),
-(153,"Santa Ana Huista"),
-(154,"Puerto Barrios"),
-(155,"Livingston"),
-(156,"El Estor"),
-(157,"Morales"),
-(158,"Los Amates"),
-(159,"Jalapa"),
-(160,"San Pedro Pinula"),
-(161,"San Luis Jilotepeque"),
-(162,"San Manuel Chaparrón"),
-(163,"San Carlos Alzatate"),
-(164,"Monjas"),
-(165,"Mataquescuintla"),
-(166,"Jutiapa"),
-(167,"El Progreso"),
-(168,"Santa Catarina Mita"),
-(169,"Agua Blanca"),
-(170,"Asunción Mita"),
-(171,"Yupiltepeque"),
-(172,"Atescatempa"),
-(173,"Jerez"),
-(174,"El Adelanto"),
-(175,"Zapotitlán"),
-(176,"Comapa"),
-(177,"Jalpatagua"),
-(178,"Conguaco"),
-(179,"Moyuta"),
-(180,"Pasaco"),
-(181,"San José Acatempa"),
-(182,"Quezada"),
-(183,"Quetzaltenango"),
-(184,"Salcajá"),
-(185,"Olintepeque"),
-(186,"San Carlos Sija"),
-(187,"Sibilia"),
-(188,"Cabrican"),
-(189,"Cajola"),
-(190,"San Miguel Siguilça"),
-(191,"San Juan Ostuncalco"),
-(192,"San Mateo"),
-(193,"Concepción Chiquirichapa"),
-(194,"San Martín Sacatepequez"),
-(195,"Almolonga"),
-(196,"Cantel"),
-(197,"Huitán"),
-(198,"Zunil"),
-(199,"Colomba"),
-(200,"San Francisco La Unión"),
-(201,"El Palmar"),
-(202,"Coatepeque"),
-(203,"Génova"),
-(204,"Flores Costa Cuca"),
-(205,"La Esperanza"),
-(206,"Palestina de los Altos"),
-(207,"Retalhuelu"),
-(208,"San Sebastián"),
-(209,"Santa Cruz Mulúa"),
-(210,"San Martín Zapotitlán"),
-(211,"San Felipe Retalhuleu"),
-(212,"San Andrés Villa Seca"),
-(213,"Champerico"),
-(214,"Nuevo San Carlos"),
-(215,"El Asintal"),
-(216,"Antigua Guatemala"),
-(217,"Jocotenango"),
-(218,"Pastores"),
-(219,"Sumpango"),
-(220,"Santo Domingo Xenacoj"),
-(221,"Santiago Sacatepequez"),
-(222,"San Bartolomé Milpas Altas"),
-(223,"San Lucas Sacatepequez"),
-(224,"Santa Lucía Milpas Altas"),
-(225,"Magdalena Milpas Altas"),
-(226,"Santa María de Jesús"),
-(227,"Ciudad Vieja"),
-(228,"San Miguel Dueñas"),
-(229,"San Juan Alotenango"),
-(230,"San Antonio Aguas Calientes"),
-(231,"Santa Catarina Barahona"),
-(232,"San Marcos"),
-(233,"San Pedro Sacatepéquez"),
-(234,"Comitancillo"),
-(235,"San Antonio Sacatepéquez"),
-(236,"San Miguel Ixtahuacan"),
-(237,"Concepción Tutuapa"),
-(238,"Tacaná"),
-(239,"Sibinal"),
-(240,"Tajumulco"),
-(241,"Tejutla"),
-(242,"San Rafael Pié de la Cuesta"),
-(243,"Nuevo Progreso"),
-(244,"El Tumbador"),
-(245,"San José El Rodeo"),
-(246,"Malacatán"),
-(247,"Catarina"),
-(248,"Ayutla"),
-(249,"Ocos"),
-(250,"San Pablo"),
-(251,"El Quetzal"),
-(252,"La Reforma"),
-(253,"Pajapita"),
-(254,"Ixchiguan"),
-(255,"San José Ojetenán"),
-(256,"San Cristóbal Cucho"),
-(257,"Sipacapa"),
-(258,"Esquipulas Palo Gordo"),
-(259,"Río Blanco"),
-(260,"San Lorenzo"),
-(261,"Cuilapa"),
-(262,"Berberena"),
-(263,"San Rosa de Lima"),
-(264,"Casillas"),
-(265,"San Rafael Las Flores"),
-(266,"Oratorio"),
-(267,"San Juan TEcuaco"),
-(268,"Chiquimulilla"),
-(269,"Taxisco"),
-(270,"Santa María Ixhuatan"),
-(271,"Guazacapán"),
-(272,"Santa Cruz Naranjo"),
-(273,"Pueblo Nuevo Viñas"),
-(274,"Nueva Santa Rosa"),
-(275,"Sololá"),
-(276,"San José Chacaya"),
-(277,"Santa María Visitación"),
-(278,"Santa Lucía Utatlán"),
-(279,"Nahualá"),
-(280,"Santa Catarina Ixtahuacán"),
-(281,"Santa Clara La Laguna"),
-(282,"Concepción"),
-(283,"San Andrés Semetabaj"),
-(284,"Panajachel"),
-(285,"Santa Catarina Palopó"),
-(286,"San Antonio Palopó"),
-(287,"San Lucas Tolimán"),
-(288,"Santa Cruz La Laguna"),
-(289,"Sna Pablo La Laguna"),
-(290,"San Marcos La Laguna"),
-(291,"San Juan La Laguna"),
-(292,"San Pedro La Laguna"),
-(293,"Santiago Atitlán"),
-(294,"Mazatenango"),
-(295,"Cuyotenango"),
-(296,"San Francisco Zapotitlán"),
-(297,"San Bernardino"),
-(298,"San José El Ídolo"),
-(299,"Santo Domingo Suchitepequez"),
-(300,"San Lorenzo"),
-(301,"Samayac"),
-(302,"San Pablo Jocopilas"),
-(303,"San Antonio Suchitepéquez"),
-(304,"San Miguel Panán"),
-(305,"San Gabriel"),
-(306,"Chicacao"),
-(307,"Patulul"),
-(308,"Santa Bárbara"),
-(309,"San Juan Bautista"),
-(310,"Santo Tomás La Unión"),
-(311,"Zunilito"),
-(312,"Pueblo Nuevo Suchitepéquez"),
-(313,"Río Bravo"),
-(314,"Totonicapán"),
-(315,"San Cristóbal Totonicapán"),
-(316,"San Francisco El Alto"),
-(317,"San Andrés Xecul"),
-(318,"Momostenango"),
-(319,"Santa María Chiquimula"),
-(320,"Santa Lucía La Reforma"),
-(321,"San Bartolo Aguas Calientes"),
-(322,"Zacapa"),
-(323,"Estanzuela"),
-(324,"Río Hondo"),
-(325,"gualán"),
-(326,"Teculután"),
-(327,"Usumatlán"),
-(328,"Cabañas"),
-(329,"San Diego"),
-(330,"La Unión"),
-(331,"Huite");
+INSERT INTO Paises_E(Id_Pais, Descripcion) VALUE(320, 'GUATEMALA');
+INSERT INTO Paises_E(Id_Pais, Descripcion) VALUE(840, 'ESTADOS UNIDOS');
 
+INSERT INTO Vehiculos_E(Id_NoPlaca, anio, PesoMaximo, Id_empleado, marca, MedidaPeso, Id_EstadoVehiculo) VALUES(756, 2019, 700, 2019001001, 'MAZDA', 'LIBRAS', 1);
+INSERT INTO Vehiculos_E(Id_NoPlaca, anio, PesoMaximo, Id_empleado, marca, MedidaPeso, Id_EstadoVehiculo) VALUES(755, 2019, 700, 2019001002, 'MAZDA', 'LIBRAS', 1);
+INSERT INTO Vehiculos_E(Id_NoPlaca, anio, PesoMaximo, Id_empleado, marca, MedidaPeso, Id_EstadoVehiculo) VALUES(754, 2019, 700, 2019001003, 'MAZDA', 'LIBRAS', 1);
 
-INSERT INTO `Paises` (`Id_Pais`, `Descripcion`) VALUES
-(20,"Andorra"),
-(784,"Emiratos Árabes Unidos"),
-(4,"Afganistán"),
-(28,"Antigua y Barbuda"),
-(660,"Anguila"),
-(8,"Albania"),
-(51,"Armenia"),
-(530,"Antillas Neerlandesas"),
-(24,"Angola"),
-(10,"Antártida"),
-(32,"Argentina"),
-(16,"Samoa Americana"),
-(40,"Austria"),
-(36,"Australia"),
-(533,"Aruba"),
-(248,"Islas Áland"),
-(31,"Azerbaiyán"),
-(70,"Bosnia y Herzegovina"),
-(52,"Barbados"),
-(50,"Bangladesh"),
-(56,"Bélgica"),
-(854,"Burkina Faso"),
-(100,"Bulgaria"),
-(48,"Bahréin"),
-(108,"Burundi"),
-(204,"Benin"),
-(652,"San Bartolomé"),
-(60,"Bermudas"),
-(96,"Brunéi"),
-(68,"Bolivia"),
-(76,"Brasil"),
-(44,"Bahamas"),
-(64,"Bhután"),
-(74,"Isla Bouvet"),
-(72,"Botsuana"),
-(112,"Belarús"),
-(84,"Belice"),
-(124,"Canadá"),
-(166,"Islas Cocos"),
-(140,"República Centro-Africana"),
-(178,"Congo"),
-(756,"Suiza"),
-(384,"Costa de Marfil"),
-(184,"Islas Cook"),
-(152,"Chile"),
-(120,"Camerún"),
-(156,"China"),
-(170,"Colombia"),
-(188,"Costa Rica"),
-(192,"Cuba"),
-(132,"Cabo Verde"),
-(162,"Islas Christmas"),
-(196,"Chipre"),
-(203,"República Checa"),
-(276,"Alemania"),
-(262,"Yibuti"),
-(208,"Dinamarca"),
-(212,"Domínica"),
-(214,"República Dominicana"),
-(12,"Argel"),
-(218,"Ecuador"),
-(233,"Estonia"),
-(818,"Egipto"),
-(732,"Sahara Occidental"),
-(232,"Eritrea"),
-(724,"España"),
-(231,"Etiopía"),
-(246,"Finlandia"),
-(242,"Fiji"),
-(238,"Islas Malvinas"),
-(583,"Micronesia"),
-(234,"Islas Faroe"),
-(250,"Francia"),
-(266,"Gabón"),
-(826,"Reino Unido"),
-(308,"Granada"),
-(268,"Georgia"),
-(254,"Guayana Francesa"),
-(831,"Guernsey"),
-(288,"Ghana"),
-(292,"Gibraltar"),
-(304,"Groenlandia"),
-(270,"Gambia"),
-(324,"Guinea"),
-(312,"Guadalupe"),
-(226,"Guinea Ecuatorial"),
-(300,"Grecia"),
-(239,"Georgia del Sur e Islas Sandwich del Sur"),
-(320,"Guatemala"),
-(316,"Guam"),
-(624,"Guinea-Bissau"),
-(328,"Guayana"),
-(344,"Hong Kong"),
-(334,"Islas Heard y McDonald"),
-(340,"Honduras"),
-(191,"Croacia"),
-(332,"Haití"),
-(348,"Hungría"),
-(360,"Indonesia"),
-(372,"Irlanda"),
-(376,"Israel"),
-(833,"Isla de Man"),
-(356,"India"),
-(86,"Territorio Británico del Océano Índico"),
-(368,"Irak"),
-(364,"Irán"),
-(352,"Islandia"),
-(380,"Italia"),
-(832,"Jersey"),
-(388,"Jamaica"),
-(400,"Jordania"),
-(392,"Japón"),
-(404,"Kenia"),
-(417,"Kirguistán"),
-(116,"Camboya"),
-(296,"Kiribati"),
-(174,"Comoros"),
-(659,"San Cristóbal y Nieves"),
-(408,"Corea del Norte"),
-(410,"Corea del Sur"),
-(414,"Kuwait"),
-(136,"Islas Caimán"),
-(398,"Kazajstán"),
-(418,"Laos"),
-(422,"Líbano"),
-(662,"Santa Lucía"),
-(438,"Liechtenstein"),
-(144,"Sri Lanka"),
-(430,"Liberia"),
-(426,"Lesotho"),
-(440,"Lituania"),
-(442,"Luxemburgo"),
-(428,"Letonia"),
-(434,"Libia"),
-(504,"Marruecos"),
-(492,"Mónaco"),
-(498,"Moldova"),
-(499,"Montenegro"),
-(450,"Madagascar"),
-(584,"Islas Marshall"),
-(807,"Macedonia"),
-(466,"Mali"),
-(104,"Myanmar"),
-(496,"Mongolia"),
-(446,"Macao"),
-(474,"Martinica"),
-(478,"Mauritania"),
-(500,"Montserrat"),
-(470,"Malta"),
-(480,"Mauricio"),
-(462,"Maldivas"),
-(454,"Malawi"),
-(484,"México"),
-(458,"Malasia"),
-(508,"Mozambique"),
-(516,"Namibia"),
-(540,"Nueva Caledonia"),
-(562,"Níger"),
-(574,"Islas Norkfolk"),
-(566,"Nigeria"),
-(558,"Nicaragua"),
-(528,"Países Bajos"),
-(578,"Noruega"),
-(524,"Nepal"),
-(520,"Nauru"),
-(570,"Niue"),
-(554,"Nueva Zelanda"),
-(512,"Omán"),
-(591,"Panamá"),
-(604,"Perú"),
-(258,"Polinesia Francesa"),
-(598,"Papúa Nueva Guinea"),
-(608,"Filipinas"),
-(586,"Pakistán"),
-(616,"Polonia"),
-(666,"San Pedro y Miquelón"),
-(612,"Islas Pitcairn"),
-(630,"Puerto Rico"),
-(275,"Palestina"),
-(620,"Portugal"),
-(585,"Islas Palaos"),
-(600,"Paraguay"),
-(634,"Qatar"),
-(638,"Reunión"),
-(642,"Rumanía"),
-(688,"Serbia y Montenegro"),
-(643,"Rusia"),
-(646,"Ruanda"),
-(682,"Arabia Saudita"),
-(90,"Islas Solomón"),
-(690,"Seychelles"),
-(736,"Sudán"),
-(752,"Suecia"),
-(702,"Singapur"),
-(654,"Santa Elena"),
-(705,"Eslovenia"),
-(744,"Islas Svalbard y Jan Mayen"),
-(703,"Eslovaquia"),
-(694,"Sierra Leona"),
-(674,"San Marino"),
-(686,"Senegal"),
-(706,"Somalia"),
-(740,"Surinam"),
-(678,"Santo Tomé y Príncipe"),
-(222,"El Salvador"),
-(760,"Siria"),
-(748,"Suazilandia"),
-(796,"Islas Turcas y Caicos"),
-(148,"Chad"),
-(260,"Territorios Australes Franceses"),
-(768,"Togo"),
-(764,"Tailandia"),
-(834,"Tanzania"),
-(762,"Tayikistán"),
-(772,"Tokelau"),
-(626,"Timor-Leste"),
-(795,"Turkmenistán"),
-(788,"Túnez"),
-(776,"Tonga"),
-(792,"Turquía"),
-(780,"Trinidad y Tobago"),
-(798,"Tuvalu"),
-(158,"Taiwán"),
-(804,"Ucrania"),
-(800,"Uganda"),
-(840,"Estados Unidos de América"),
-(858,"Uruguay"),
-(860,"Uzbekistán"),
-(336,"Ciudad del Vaticano"),
-(670,"San Vicente y las Granadinas"),
-(862,"Venezuela"),
-(92,"Islas Vírgenes Británicas"),
-(850,"Islas Vírgenes de los Estados Unidos de América"),
-(704,"Vietnam"),
-(548,"Vanuatu"),
-(876,"Wallis y Futuna"),
-(882,"Samoa"),
-(887,"Yemen"),
-(175,"Mayotte"),
-(710,"Sudáfrica");
+INSERT INTO RegistroActividad_E(Id_Paquete, Id_CodigoCliente, Id_EstatusPaquete, Id_Empleado, Id_EstadoProducto) VALUES(1002000010, 80, 1, 2019002001, 1);
+INSERT INTO RegistroActividad_E(Id_Paquete, Id_CodigoCliente, Id_EstatusPaquete, Id_Empleado, Id_EstadoProducto) VALUES(1002000011, 81, 2, 2019002001, 1);
+INSERT INTO RegistroActividad_E(Id_Paquete, Id_CodigoCliente, Id_EstatusPaquete, Id_Empleado, Id_EstadoProducto) VALUES(1002000012, 80, 1, 2019002001, 1);
+INSERT INTO RegistroActividad_E(Id_Paquete, Id_CodigoCliente, Id_EstatusPaquete, Id_Empleado, Id_EstadoProducto) VALUES(1002000013, 90, 2, 2019002001, 1);
+INSERT INTO RegistroActividad_E(Id_Paquete, Id_CodigoCliente, Id_EstatusPaquete, Id_Empleado, Id_EstadoProducto) VALUES(1002000014, 81, 6, 2019002001, 1);
 
-INSERT INTO `EstadoVehiculo` (`Id_EstadoVehiculo`, `Descripcion`) VALUES
-(0, "NINGUNO");
+INSERT INTO Control_Paquetes_E(Id_CodigoCliente, Id_Paquete, Factura, Id_EstatusPaquete, Id_FormaPago, Id_EstatusPago, Id_Estado_Producto, Id_NoPlaca) VALUES(80, 1002000010, 'A1001001', 1, 2, 1, 1, 756);
+INSERT INTO Control_Paquetes_E(Id_CodigoCliente, Id_Paquete, Factura, Id_EstatusPaquete, Id_FormaPago, Id_EstatusPago, Id_Estado_Producto, Id_NoPlaca) VALUES(81, 1002000011, 'A1001002', 1, 2, 1, 1, 756);
 
-INSERT INTO `Vehiculos` (`Id_NoPlaca`, `anio`, `PesoMaximo`, `Id_empleado`, `marca`, `MedidaPeso`, `Id_EstadoVehiculo`) VALUES
-(756, 2019, 700, 207727473, "MAZDA", "LIBRAS", 2),
-(755, 2019, 700, 207727474, "MAZDA", "LIBRAS", 2),
-(754, 2019, 700, 207727475, "MAZDA", "LIBRAS", 2);
-
-INSERT INTO `Vehiculos` (`Id_NoPlaca`, `anio`, `PesoMaximo`, `Id_empleado`, `marca`, `MedidaPeso`, `Id_EstadoVehiculo`) VALUES
-(000, 0000, 0, 0, "NINGUNO", "NINGUNO", 0);
-
-INSERT INTO `Control_Paquetes` (`Id_CodigoCliente`, `Factura`, `Id_EstatusPaquete`, `Id_FormaPago`, `Id_EstatusPago`, `Id_Estado_Producto`, `Fecha_Entrega`, `Id_NoPlaca`) VALUES
-(1, "AAA000001", 1, 2, 1, 1, "2019/10/20", 756),
-(2, "AAA000002", 1, 2, 1, 1, "2019/10/20", 755),
-(3, "AAA000003", 1, 2, 1, 1, "2019/10/20", 754),
-(4, "AAA000004", 6, 2, 1, 1, "2019/10/20", 000),
-(5, "AAA000005", 6, 2, 1, 1, "2019/10/20", 756);
 
 ------------------------  aqui voy------------------------------------------------
 
-INSERT INTO `Control_Paquetes` (`Id_Cliente`, `Id_Pais`, `Id_Departamento`, `Id_Municipio`,`Zona`, `calle`, `Aldea`, `Colonia`, `Residencial`, `lote`, `avenida`, `numero_casa`) VALUES
-(1, 320, 11,12, 318,27,"Sapote","Santa Ana","","","americas", 25),
-(2, 320, 11, 12, 280,27,"Sapote","Santa Ana","","","americas", 25);
+INSERT O Control_Paquetes (Id_Cliente, Id_Pais, Id_Departamento, Id_Municipio,Zona, calle, Aldea, Colonia, Residencial, lote, avenida, numero_casa) VALUES
+(1, 320, 11,12, 318,27,'Sapote','Santa Ana','','','americas', 25),
+(2, 320, 11, 12, 280,27,'Sapote','Santa Ana','','','americas', 25);
 
 SELECT * FROM Direccion_Entrega
 JOIN Paises USING(Id_Pais) JOIN Municipios USING(Id_Municipio) JOIN Departamento USING(Id_Departamento);
 
 
 
+Create or replace Function prueba ()
+Return prueba
+  AS
+  Return  (SELECT Id_EstatusPaquete, Id_EstatusPago, Id_CodigoCliente From Control_Paquetes)
+End
+/
+
+
 --CREATE TABLE orders (
---    order_id INT AUTO_INCREMENT PRIMARY KEY,
---    customer_id INT,
+--    order_id  AUTO_INCREMENT PRIMARY KEY,
+--    customer_id ,
 --    amount DOUBLE,
 --    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
 --);
